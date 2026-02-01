@@ -77,28 +77,16 @@ POCKETBASE_GITHUB_CLIENT_SECRET=your-github-secret
 2. Monitor build logs in real-time
 3. Wait for both services to be healthy (usually 2-5 minutes)
 
-### 7. Initial Setup
+### 7. Verify Connection
 
-**Access PocketBase Admin:**
+**Test PocketBase Connection:**
 
-1. Navigate to `https://admin.yourdomain.com/_/`
-2. Complete the admin account setup
-3. Create database collections (see schema below)
+1. Open your deployed app: `https://yourdomain.com`
+2. Check browser console for connection errors
+3. Verify data loads from your external PocketBase instance
+4. Test any forms that interact with PocketBase
 
-**Database Collections to Create:**
-
-```javascript
-// Use PocketBase Admin UI or import these schemas
-
-1. clients (for client management)
-2. projects (for portfolio)
-3. services (for service offerings)
-4. inquiries (for contact forms)
-5. testimonials (for client reviews)
-6. media (for images/videos)
-```
-
-Refer to `README-SEEDING.md` for detailed schema.
+> **Note:** Ensure your external PocketBase instance has CORS configured to allow requests from your domain.
 
 ### 8. Verify Deployment
 
@@ -160,7 +148,7 @@ npm install -g pnpm && pnpm install --frozen-lockfile && pnpm run build
 
 ```env
 NODE_ENV=production
-POCKETBASE_URL=http://pocketbase:8090
+POCKETBASE_URL=https://your-pocketbase-instance.com
 PUBLIC_SITE_URL=https://yourdomain.com
 ```
 
@@ -168,7 +156,7 @@ PUBLIC_SITE_URL=https://yourdomain.com
 
 ```env
 NODE_ENV=production
-POCKETBASE_URL=http://pocketbase:8090
+POCKETBASE_URL=https://staging-pocketbase-instance.com
 PUBLIC_SITE_URL=https://staging.yourdomain.com
 ```
 
@@ -250,12 +238,14 @@ For static assets, configure Cloudflare or similar:
 
 ### Health Checks
 
-Both services have built-in health checks:
+The web service has a built-in health check:
 
 - **Web:** `http://localhost:3000` (returns 200)
-- **PocketBase:** `http://localhost:8090/api/health` (returns 200)
 
-Coolify monitors these automatically.
+Coolify monitors this automatically.
+
+**External PocketBase:**
+Monitor your PocketBase instance separately through its hosting platform.
 
 ### Logs
 
@@ -289,20 +279,20 @@ Coolify provides built-in metrics:
 
 **Minimum (Low Traffic):**
 - 1 CPU core
-- 1GB RAM
-- 20GB storage
+- 512MB RAM
+- 10GB storage
 
 **Recommended (Production):**
 - 2 CPU cores
-- 2GB RAM
-- 40GB storage
+- 1GB RAM
+- 20GB storage
 
 ### Scaling
 
 For high traffic:
-1. Scale web service horizontally
+1. Scale web service horizontally in Coolify
 2. Add load balancer in Coolify
-3. Keep single PocketBase instance (SQLite limitation)
+3. Ensure PocketBase instance can handle increased load
 
 ## Support Resources
 
@@ -335,15 +325,13 @@ docker exec -it lithiumteck-web sh
 
 ## Next Steps
 
-1. ✅ Deploy application
-2. ✅ Configure PocketBase collections
-3. ✅ Seed initial data
-4. ✅ Test all features
+1. ✅ Deploy application to Coolify
+2. ✅ Verify connection to external PocketBase
+3. ✅ Test all features and API endpoints
+4. ✅ Configure CORS on PocketBase for your domain
 5. ✅ Configure monitoring
-6. ✅ Set up backups
-7. ✅ Configure OAuth (optional)
-8. ✅ Optimize performance
-9. ✅ Document custom configurations
+6. ✅ Optimize performance
+7. ✅ Document custom configurations
 
 ---
 

@@ -100,19 +100,18 @@ Use this checklist to ensure a smooth deployment to Coolify.
 - [ ] Both services showing "Running" status
 - [ ] Deployment completed successfully
 
-### 11. DNS Configuration
+### 10. DNS Configuration
 - [ ] DNS A record for main domain points to Coolify server IP
-- [ ] DNS A record for admin subdomain points to Coolify server IP
 - [ ] DNS propagation verified (use `dig` or online tools)
 - [ ] SSL certificates issued successfully
 
-### 12. Verify Services
+### 11. Verify Services
 - [ ] Main app accessible at `https://yourdomain.com`
-- [ ] PocketBase admin accessible at `https://admin.yourdomain.com/_/`
 - [ ] No console errors in browser
-- [ ] Health endpoints responding:
+- [ ] Health endpoint responding:
   - [ ] `https://yourdomain.com` (200 OK)
-  - [ ] `https://admin.yourdomain.com/api/health` (200 OK)
+- [ ] External PocketBase accessible:
+  - [ ] `https://your-pocketbase-instance.com/api/health` (200 OK)
 
 ## Post-Deployment
 
@@ -232,11 +231,10 @@ coolify restart lithiumteck-web
 
 **Health Check URLs:**
 - Web: `https://yourdomain.com`
-- PocketBase: `https://admin.yourdomain.com/api/health`
+- PocketBase (external): `https://your-pocketbase-instance.com/api/health`
 
 **Important Ports:**
 - Web: `3000`
-- PocketBase: `8090`
 
 ---
 

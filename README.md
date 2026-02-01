@@ -128,15 +128,15 @@ For detailed deployment instructions, see [DEPLOYMENT.md](./DEPLOYMENT.md).
 See `.env.example` for all available configuration options.
 
 **Required:**
-- `POCKETBASE_URL` - PocketBase API URL
-- `POCKETBASE_ADMIN_EMAIL` - Admin email
-- `POCKETBASE_ADMIN_PASSWORD` - Admin password
+- `POCKETBASE_URL` - External PocketBase instance URL (https://your-pocketbase-instance.com)
 - `PUBLIC_SITE_URL` - Public site URL
 - `PUBLIC_SITE_NAME` - Site name
 
 **Optional:**
-- OAuth credentials (Google, GitHub)
-- SMTP settings for email notifications
+- OAuth credentials (Google, GitHub) - configured on PocketBase instance
+- `PUBLIC_SITE_DESCRIPTION` - Site meta description
+
+> **Note:** PocketBase is deployed separately. This deployment only includes the SvelteKit frontend.
 
 ## 📝 License
 

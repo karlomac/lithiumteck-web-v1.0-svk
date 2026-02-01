@@ -1,26 +1,6 @@
 version: '3.8'
 
 services:
-  # PocketBase Backend
-  pocketbase:
-    image: ghcr.io/muchobien/pocketbase:latest
-    container_name: lithiumteck-pocketbase
-    restart: unless-stopped
-    ports:
-      - "8090:8090"
-    volumes:
-      - pocketbase_data:/pb_data
-      - pocketbase_public:/pb_public
-    environment:
-      - POCKETBASE_ADMIN_EMAIL=${POCKETBASE_ADMIN_EMAIL}
-      - POCKETBASE_ADMIN_PASSWORD=${POCKETBASE_ADMIN_PASSWORD}
-    healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8090/api/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-
   # SvelteKit Frontend
   web:
     build:
@@ -33,7 +13,7 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=3000
-      - POCKETBASE_URL=${POCKETBASE_URL:-http://pocketbase:8090}
+      - POCKETBASE_URL=${POCKETBASE_URL}
       - PUBLIC_SITE_URL=${PUBLIC_SITE_URL}
       - PUBLIC_SITE_NAME=${PUBLIC_SITE_NAME:-Lithiumteck}
       - PUBLIC_SITE_DESCRIPTION=${PUBLIC_SITE_DESCRIPTION}
@@ -41,21 +21,12 @@ services:
       - POCKETBASE_GOOGLE_CLIENT_SECRET=${POCKETBASE_GOOGLE_CLIENT_SECRET}
       - POCKETBASE_GITHUB_CLIENT_ID=${POCKETBASE_GITHUB_CLIENT_ID}
       - POCKETBASE_GITHUB_CLIENT_SECRET=${POCKETBASE_GITHUB_CLIENT_SECRET}
-    depends_on:
-      pocketbase:
-        condition: service_healthy
     healthcheck:
       test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 40s
-
-volumes:
-  pocketbase_data:
-    driver: local
-  pocketbase_public:
-    driver: local
 
 networks:
   default:

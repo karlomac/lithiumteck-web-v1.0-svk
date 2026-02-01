@@ -70,18 +70,17 @@ echo ""
 
 # Read .env and check for required variables
 required_vars=(
-    "POCKETBASE_ADMIN_EMAIL"
-    "POCKETBASE_ADMIN_PASSWORD"
+    "POCKETBASE_URL"
     "PUBLIC_SITE_URL"
     "PUBLIC_SITE_NAME"
 )
 
 missing_vars=()
 for var in "${required_vars[@]}"; do
-    if grep -q "^${var}=" .env && ! grep -q "^${var}=your-" .env && ! grep -q "^${var}=$" .env; then
+    if grep -q "^${var}=" .env 2>/dev/null && ! grep -q "^${var}=your-" .env && ! grep -q "^${var}=$" .env && ! grep -q "^${var}=http://localhost" .env; then
         print_success "$var is set"
     else
-        print_warning "$var is not configured"
+        print_warning "$var is not configured or needs updating"
         missing_vars+=("$var")
     fi
 done
@@ -130,27 +129,19 @@ echo "3. Environment Variables (Set in Coolify UI):"
 for var in "${required_vars[@]}"; do
     echo "   □ $var"
 done
-echo "   □ POCKETBASE_URL=http://pocketbase:8090"
 echo ""
 echo "4. Domain Configuration:"
 echo "   □ Main app: yourdomain.com → Port 3000"
-echo "   □ PocketBase Admin: admin.yourdomain.com → Port 8090"
 echo ""
-echo "5. Persistent Storage:"
-echo "   □ Verify volumes are configured for pocketbase_data"
-echo "   □ Verify volumes are configured for pocketbase_public"
-echo ""
-echo "6. Deploy:"
+echo "5. Deploy:"
 echo "   □ Click Deploy in Coolify"
 echo "   □ Monitor build logs"
 echo "   □ Verify health checks pass"
 echo ""
-echo "7. Post-Deployment:"
-echo "   □ Access PocketBase Admin (https://admin.yourdomain.com/_/)"
-echo "   □ Complete admin setup"
-echo "   □ Create database collections"
-echo "   □ Run seeding script or import data"
-echo "   □ Configure OAuth providers (optional)"
+echo "6. Post-Deployment:"
+echo "   □ Verify app connects to external PocketBase instance"
+echo "   □ Test all API endpoints"
+echo "   □ Confirm data loading correctly"
 echo ""
 
 echo "📖 Additional Resources:"
