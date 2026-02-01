@@ -1,0 +1,64 @@
+{
+  "name": "lithiumteck-web",
+  "type": "docker-compose",
+  "version": "3.8",
+  "services": {
+    "pocketbase": {
+      "type": "docker-image",
+      "image": "ghcr.io/muchobien/pocketbase:latest",
+      "ports": ["8090:8090"],
+      "volumes": {
+        "pocketbase_data": "/pb_data",
+        "pocketbase_public": "/pb_public"
+      },
+      "healthcheck": {
+        "url": "/api/health",
+        "interval": 30,
+        "timeout": 10,
+        "retries": 3
+      }
+    },
+    "web": {
+      "type": "dockerfile",
+      "dockerfile": "Dockerfile",
+      "buildContext": ".",
+      "ports": ["3000:3000"],
+      "dependsOn": ["pocketbase"]
+    }
+  },
+  "domains": {
+    "web": {
+      "port": 3000,
+      "https": true
+    },
+    "pocketbase": {
+      "port": 8090,
+      "path": "/admin",
+      "https": true
+    }
+  },
+  "environment": {
+    "required": [
+      "POCKETBASE_ADMIN_EMAIL",
+      "POCKETBASE_ADMIN_PASSWORD",
+      "PUBLIC_SITE_URL",
+      "PUBLIC_SITE_NAME"
+    ],
+    "optional": [
+      "POCKETBASE_GOOGLE_CLIENT_ID",
+      "POCKETBASE_GOOGLE_CLIENT_SECRET",
+      "POCKETBASE_GITHUB_CLIENT_ID",
+      "POCKETBASE_GITHUB_CLIENT_SECRET",
+      "PUBLIC_SITE_DESCRIPTION"
+    ]
+  },
+  "build": {
+    "nodeVersion": "20",
+    "packageManager": "pnpm",
+    "buildCommand": "pnpm run build",
+    "installCommand": "pnpm install --frozen-lockfile"
+  },
+  "persistent": {
+    "volumes": ["pocketbase_data", "pocketbase_public"]
+  }
+}

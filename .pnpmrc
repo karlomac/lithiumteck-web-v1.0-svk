@@ -1,0 +1,13 @@
+# pnpm configuration for syntax validation
+prefer-frozen-lockfile=true
+strict-peer-dependencies=true
+resolution-mode=highest
+
+# Enable auto-install peer dependencies
+auto-install-peers=true
+
+# Save exact versions
+save-exact=true
+
+# Enable shamefully-hoist for better compatibility
+shamefully-hoist=true

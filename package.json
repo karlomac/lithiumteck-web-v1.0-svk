@@ -1,0 +1,40 @@
+{
+	"name": "lithiumteck-web-v1.0-svk",
+	"private": true,
+	"version": "0.0.1",
+	"type": "module",
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"prepare": "svelte-kit sync || echo ''",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./jsconfig.json --watch",
+		"syntax-check": "node pnpm-test-syntax.js",
+		"syntax-check:watch": "node tests/syntax.test.js --watch",
+		"lint": "eslint src --ext .js,.svelte",
+		"lint:fix": "eslint src --ext .js,.svelte --fix",
+		"validate": "pnpm run syntax-check && pnpm run lint && pnpm run check"
+	},
+	"dependencies": {
+		"pocketbase": "^0.21.5"
+	},
+	"devDependencies": {
+		"@eslint/js": "^9.39.2",
+		"@sveltejs/adapter-node": "^5.5.2",
+		"@sveltejs/kit": "^2.50.1",
+		"@sveltejs/vite-plugin-svelte": "^6.2.4",
+		"@tailwindcss/forms": "^0.5.11",
+		"@tailwindcss/typography": "^0.5.19",
+		"@tailwindcss/vite": "^4.1.18",
+		"eslint": "^9.39.2",
+		"eslint-plugin-svelte": "^3.14.0",
+		"globals": "^15.9.0",
+		"svelte": "^5.48.2",
+		"svelte-check": "^4.3.5",
+		"tailwindcss": "^4.1.18",
+		"typescript": "^5.9.3",
+		"typescript-eslint": "^8.8.1",
+		"vite": "^7.3.1"
+	}
+}

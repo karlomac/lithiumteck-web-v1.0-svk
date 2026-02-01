@@ -1,0 +1,47 @@
+@import 'tailwindcss';
+
+body {
+	font-family: 'Space Grotesk', sans-serif;
+}
+
+.xp-bar-gradient {
+	background: linear-gradient(90deg, #13ec13 0%, #326732 100%);
+}
+
+.pixel-border {
+	box-shadow: 0 0 0 2px #102210, 0 0 0 4px #13ec13;
+}
+
+.masonry-grid {
+	column-count: 3;
+	column-gap: 1.5rem;
+}
+
+@media (max-width: 1024px) {
+	.masonry-grid {
+		column-count: 2;
+	}
+}
+
+@media (max-width: 640px) {
+	.masonry-grid {
+		column-count: 1;
+	}
+}
+
+.masonry-item {
+	break-inside: avoid;
+	margin-bottom: 1.5rem;
+}
+
+.dark-stone-texture {
+	background-color: #102210;
+	background-image: radial-gradient(circle at 2px 2px, #1a2e1a 1px, transparent 0);
+	background-size: 24px 24px;
+}
+
+.code-syntax-keyword { color: #ff79c6; }
+.code-syntax-string { color: #f1fa8c; }
+.code-syntax-comment { color: #6272a4; }
+.code-syntax-function { color: #50fa7b; }
+.code-syntax-class { color: #8be9fd; }
