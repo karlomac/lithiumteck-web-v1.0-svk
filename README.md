@@ -15,9 +15,9 @@ git push origin main
 Then follow the steps in **[COOLIFY-QUICKSTART.md](./COOLIFY-QUICKSTART.md)** for complete deployment guide.
 
 **Deployment Files:**
-- `docker-compose.yml` - Full stack configuration
-- `Dockerfile` - Production build
+- `Dockerfile` - Production build (main deployment file)
 - `.coolify.json` - Coolify-specific config
+- `docker-compose.yml` - Local development only
 - `DEPLOYMENT.md` - Detailed deployment guide
 - `COOLIFY-QUICKSTART.md` - Quick start guide
 
@@ -104,8 +104,12 @@ For detailed deployment instructions, see [DEPLOYMENT.md](./DEPLOYMENT.md).
 
 ## 📚 Documentation
 
-- **[COOLIFY-QUICKSTART.md](./COOLIFY-QUICKSTART.md)** - Quick deployment guide
-- **[DEPLOYMENT.md](./DEPLOYMENT.md)** - Comprehensive deployment documentation
+**Deployment Guides:**
+- **[COOLIFY-DOCKERFILE.md](./COOLIFY-DOCKERFILE.md)** - **Main deployment guide** (Dockerfile)
+- **[COOLIFY-QUICKSTART.md](./COOLIFY-QUICKSTART.md)** - Quick reference
+- **[DEPLOYMENT-CHECKLIST.md](./DEPLOYMENT-CHECKLIST.md)** - Step-by-step checklist
+
+**Additional:**
 - **[README-SEEDING.md](./README-SEEDING.md)** - Database schema and seeding
 - **[.env.example](./.env.example)** - Environment variables reference
 

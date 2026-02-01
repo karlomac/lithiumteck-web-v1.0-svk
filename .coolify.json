@@ -1,20 +1,16 @@
 {
   "name": "lithiumteck-web",
-  "type": "docker-compose",
-  "version": "3.8",
-  "services": {
-    "web": {
-      "type": "dockerfile",
-      "dockerfile": "Dockerfile",
-      "buildContext": ".",
-      "ports": ["3000:3000"]
-    }
-  },
-  "domains": {
-    "web": {
-      "port": 3000,
-      "https": true
-    }
+  "type": "dockerfile",
+  "dockerfile": "Dockerfile",
+  "buildContext": ".",
+  "port": 3000,
+  "healthcheck": {
+    "enabled": true,
+    "path": "/",
+    "interval": 30,
+    "timeout": 10,
+    "retries": 3,
+    "startPeriod": 40
   },
   "environment": {
     "required": [
@@ -32,8 +28,7 @@
   },
   "build": {
     "nodeVersion": "20",
-    "packageManager": "pnpm",
-    "buildCommand": "pnpm run build",
-    "installCommand": "pnpm install --frozen-lockfile"
-  }
+    "packageManager": "pnpm"
+  },
+  "restart": "unless-stopped"
 }

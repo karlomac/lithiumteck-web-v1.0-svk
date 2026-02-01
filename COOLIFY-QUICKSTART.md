@@ -31,11 +31,13 @@ git push origin main
 **In Coolify Dashboard:**
 
 1. Click **"+ New Resource"**
-2. Select **"Docker Compose"**
+2. Select **"Dockerfile"** (or "Docker Image")
 3. Choose **"From Git Repository"**
 4. Select your repository
 5. Branch: `main` (or your default branch)
-6. Docker Compose Location: `docker-compose.yml`
+6. Dockerfile path: `Dockerfile`
+7. Build context: `.` (root directory)
+8. Port: `3000`
 
 ### 4. Configure Environment Variables
 

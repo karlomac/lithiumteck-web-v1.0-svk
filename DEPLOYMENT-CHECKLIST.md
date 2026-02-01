@@ -37,10 +37,12 @@ Use this checklist to ensure a smooth deployment to Coolify.
 ### 5. Create Resource
 - [ ] Logged into Coolify dashboard
 - [ ] Clicked "+ New Resource"
-- [ ] Selected "Docker Compose"
+- [ ] Selected "Dockerfile"
 - [ ] Connected Git repository
 - [ ] Selected correct branch (main/master)
-- [ ] Docker Compose file path set to `docker-compose.yml`
+- [ ] Dockerfile path set to `Dockerfile`
+- [ ] Build context set to `.` (root)
+- [ ] Port set to `3000`
 
 ### 6. Environment Variables (Set in Coolify UI)
 
