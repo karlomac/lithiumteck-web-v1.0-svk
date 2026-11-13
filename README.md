@@ -1,151 +1,108 @@
 # Lithiumteck Web v1.0
 
-Premium Minecraft server solutions platform built with SvelteKit and PocketBase.
+Marketing/portfolio site for **Lithiumteck** (Minecraft server solutions: world building, custom plugins, asset design) built with SvelteKit.
 
-## 🚀 Quick Deploy to Coolify
+## Site overview
 
-```bash
-# Validate deployment configuration
-./coolify-setup.sh
+- **`/`** — Landing page: hero, services, featured projects, code showcase, contact CTA (static content).
+- **`/portfolio`** — World-building portfolio gallery with client-side category filtering.
+- **`/plugins`** — Technical/plugin showcase (features, deliverables, demo/code preview).
+- **`/health`** — Plain-text health endpoint (`ok`) for container/platform health checks.
 
-# Push to your Git repository
-git push origin main
-```
+Current UI content is static/hardcoded; PocketBase is intended as an external backend but is not yet wired into the app runtime.
 
-Then follow the steps in **[COOLIFY-QUICKSTART.md](./COOLIFY-QUICKSTART.md)** for complete deployment guide.
+## Tech stack
 
-**Deployment Files:**
-- `Dockerfile` - Production build (main deployment file)
-- `.coolify.json` - Coolify-specific config
-- `docker-compose.yml` - Local development only
-- `DEPLOYMENT.md` - Detailed deployment guide
-- `COOLIFY-QUICKSTART.md` - Quick start guide
+- **Frontend:** SvelteKit 2 / Svelte 5, Tailwind CSS 4
+- **Backend (external):** PocketBase (separate deployment)
+- **Adapter:** `@sveltejs/adapter-node` (`node build`)
+- **Package manager:** pnpm
+- **Deployment:** Dockerfile / Docker Compose (Dokploy/Coolify-ready)
 
-## 📋 Tech Stack
-
-- **Frontend:** SvelteKit 2.x with Tailwind CSS 4.x
-- **Backend:** PocketBase (SQLite)
-- **Adapter:** @sveltejs/adapter-node
-- **Package Manager:** pnpm
-- **Deployment:** Docker + Coolify
-
-## 🏃 Local Development
+## Local development
 
 ### Prerequisites
-
 - Node.js 20+
 - pnpm
 
 ### Setup
-
 ```sh
-# Install dependencies
 pnpm install
-
-# Copy environment file
 cp .env.example .env
-
-# Start development server
-pnpm run dev
-
-# Or open in browser automatically
-pnpm run dev -- --open
+# edit .env as needed (at minimum set POCKETBASE_URL for compose parity)
+pnpm dev
 ```
 
-### Development Scripts
+### Scripts
+```sh
+pnpm dev            # start dev server
+pnpm build          # production build
+pnpm preview        # preview production build
+pnpm lint           # eslint
+pnpm check          # svelte-check
+pnpm syntax-check   # custom syntax validator
+pnpm validate       # syntax-check + lint + check
+```
+
+## Configuration (`.env`)
+
+Use `.env.example` as the template. Do not commit `.env` (gitignored).
+
+| Variable | Required | Purpose |
+|---|---:|---|
+| `POCKETBASE_URL` | yes (compose) | URL of the separately deployed PocketBase instance used by the app |
+| `PUBLIC_SITE_URL` | recommended | Canonical/public site URL |
+| `PUBLIC_SITE_NAME` | recommended | Site name (default `Lithiumteck`) |
+| `PUBLIC_SITE_DESCRIPTION` | no | Site meta/description text |
+| `ORIGIN` | no | Pin SvelteKit origin only if needed; leave empty when proxy headers are trusted |
+| `PROTOCOL_HEADER` / `HOST_HEADER` / `ADDRESS_HEADER` | set in compose | Trust Traefik/Dokploy forwarded headers for correct origin/form handling |
+| `XFF_DEPTH` | no | Trusted proxy hop depth (default `1`) |
+| `POCKETBASE_GOOGLE_CLIENT_ID/SECRET` | no | OAuth config (managed on PocketBase instance as applicable) |
+| `POCKETBASE_GITHUB_CLIENT_ID/SECRET` | no | OAuth config |
+| `SMTP_HOST/PORT/USERNAME/PASSWORD/FROM` | no | Email/notification settings (if used) |
+
+> **PocketBase:** deployed separately. This repo deploys the SvelteKit frontend only; provide `POCKETBASE_URL` via platform env (Dokploy/Coolify UI) or local `.env`.
+
+## Deployment (Dokploy / Coolify)
+
+See **[COOLIFY-DOCKERFILE.md](./COOLIFY-DOCKERFILE.md)** for the concise deploy guide.
+
+**Docker Compose (`docker-compose.yml`, recommended for Dokploy):**
+- No host `ports:` published; uses `expose: "3000"` for Traefik/internal networking.
+- Map domain to service **`web`**, **container port `3000`**; enable HTTPS.
+- No committed `env_file`; variables are declared as `${VAR}` for platform injection. `POCKETBASE_URL` is required.
+- Proxy headers configured to avoid cross-site form POST/origin issues behind reverse proxy.
+- Health check: `GET /health`.
+
+**Dockerfile:** multi-stage build (Node 20 Alpine, pnpm) producing `node build` on port 3000 with proxy-header defaults and container healthcheck.
 
 ```sh
-# Start dev server
-pnpm run dev
-
-# Build for production
-pnpm run build
-
-# Preview production build
-pnpm run preview
-
-# Run linting
-pnpm run lint
-
-# Check syntax
-pnpm run syntax-check
-
-# Validate everything
-pnpm run validate
+# verify after deploy
+curl https://yourdomain.com/health
 ```
 
-## 🐳 Docker Development
+`docker-compose.yml` is production/Dokploy-oriented; for local container runs you may need to adapt port mapping/env for your environment.
 
-```sh
-# Start full stack (SvelteKit + PocketBase)
-docker-compose up -d
-
-# View logs
-docker-compose logs -f
-
-# Stop services
-docker-compose down
-```
-
-**Services:**
-- Web app: http://localhost:3000
-- PocketBase Admin: http://localhost:8090/_/
-
-## 🌐 Production Deployment
-
-This project is optimized for **Coolify** deployment:
-
-1. Run validation: `./coolify-setup.sh`
-2. Follow [COOLIFY-QUICKSTART.md](./COOLIFY-QUICKSTART.md)
-3. Configure environment variables in Coolify
-4. Deploy and monitor
-
-For detailed deployment instructions, see [DEPLOYMENT.md](./DEPLOYMENT.md).
-
-## 📚 Documentation
-
-**Deployment Guides:**
-- **[COOLIFY-DOCKERFILE.md](./COOLIFY-DOCKERFILE.md)** - **Main deployment guide** (Dockerfile)
-- **[COOLIFY-QUICKSTART.md](./COOLIFY-QUICKSTART.md)** - Quick reference
-- **[DEPLOYMENT-CHECKLIST.md](./DEPLOYMENT-CHECKLIST.md)** - Step-by-step checklist
-
-**Additional:**
-- **[README-SEEDING.md](./README-SEEDING.md)** - Database schema and seeding
-- **[.env.example](./.env.example)** - Environment variables reference
-
-## 🔧 Project Structure
+## Project structure
 
 ```
 .
 ├── src/
-│   ├── routes/          # SvelteKit routes
-│   └── lib/             # Shared components & utilities
-├── static/              # Static assets
-├── build/               # Production build output
-├── Dockerfile           # Multi-stage Docker build
-├── docker-compose.yml   # Full stack orchestration
-└── .coolify.json        # Coolify configuration
+│   ├── routes/              # SvelteKit routes (+page.svelte, /portfolio, /plugins, /health)
+│   ├── lib/                 # Shared assets/utilities
+│   ├── app.html             # App shell (fonts/icons, dark mode)
+│   └── app.d.ts
+├── static/                  # Static assets (robots.txt, etc.)
+├── Dockerfile               # Multi-stage production image
+├── docker-compose.yml       # Dokploy/Coolify Compose config
+├── .coolify.json            # Coolify metadata
+├── .env.example             # Environment variable template
+├── COOLIFY-DOCKERFILE.md    # Deploy guide
+├── README-SEEDING.md        # PocketBase schema/seeding notes
+└── pocketbase-seed.js       # Example seeding script
 ```
 
-## 🛠️ Environment Variables
+## Notes
 
-See `.env.example` for all available configuration options.
-
-**Required:**
-- `POCKETBASE_URL` - External PocketBase instance URL (https://your-pocketbase-instance.com)
-- `PUBLIC_SITE_URL` - Public site URL
-- `PUBLIC_SITE_NAME` - Site name
-
-**Optional:**
-- OAuth credentials (Google, GitHub) - configured on PocketBase instance
-- `PUBLIC_SITE_DESCRIPTION` - Site meta description
-
-> **Note:** PocketBase is deployed separately. This deployment only includes the SvelteKit frontend.
-
-## 📝 License
-
-Private project - All rights reserved
-
----
-
-**Built with [SvelteKit](https://kit.svelte.dev) & [PocketBase](https://pocketbase.io)**
+- `README-SEEDING.md`, `pocketbase-seed.js`, and `import-json.js` are scaffolding/docs for an external PocketBase setup; app-side integration is not implemented yet.
+- Private project. Built with [SvelteKit](https://kit.svelte.dev) & [PocketBase](https://pocketbase.io).
