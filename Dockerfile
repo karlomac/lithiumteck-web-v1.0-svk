@@ -3,14 +3,14 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Copy package files
-COPY package.json pnpm-lock.yaml ./
+# Copy package files and pnpm config
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc .pnpmrc ./
 
 # Install pnpm
 RUN npm install -g pnpm
 
 # Install dependencies
-RUN pnpm install --frozen-lockfile
+RUN CI=true pnpm install --frozen-lockfile --dangerously-allow-all-builds
 
 # Copy source code
 COPY . .
@@ -26,11 +26,11 @@ WORKDIR /app
 # Install pnpm
 RUN npm install -g pnpm
 
-# Copy package files
-COPY package.json pnpm-lock.yaml ./
+# Copy package files and pnpm config
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc .pnpmrc ./
 
 # Install production dependencies only
-RUN pnpm install --prod --frozen-lockfile
+RUN CI=true pnpm install --prod --frozen-lockfile --dangerously-allow-all-builds
 
 # Copy built application from builder
 COPY --from=builder /app/build ./build
