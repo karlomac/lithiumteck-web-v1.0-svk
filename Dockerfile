@@ -42,6 +42,12 @@ EXPOSE 3000
 # Set environment to production
 ENV NODE_ENV=production
 ENV PORT=3000
+ENV PROTOCOL_HEADER=x-forwarded-proto
+ENV HOST_HEADER=x-forwarded-host
+ENV ADDRESS_HEADER=x-forwarded-for
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+  CMD wget --no-verbose --tries=1 --spider http://127.0.0.1:3000/health || exit 1
 
 # Start the application
 CMD ["node", "build"]

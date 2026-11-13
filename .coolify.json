@@ -6,7 +6,7 @@
   "port": 3000,
   "healthcheck": {
     "enabled": true,
-    "path": "/",
+    "path": "/health",
     "interval": 30,
     "timeout": 10,
     "retries": 3,
@@ -19,11 +19,21 @@
       "PUBLIC_SITE_NAME"
     ],
     "optional": [
+      "ORIGIN",
+      "PROTOCOL_HEADER",
+      "HOST_HEADER",
+      "ADDRESS_HEADER",
+      "XFF_DEPTH",
+      "PUBLIC_SITE_DESCRIPTION",
       "POCKETBASE_GOOGLE_CLIENT_ID",
       "POCKETBASE_GOOGLE_CLIENT_SECRET",
       "POCKETBASE_GITHUB_CLIENT_ID",
       "POCKETBASE_GITHUB_CLIENT_SECRET",
-      "PUBLIC_SITE_DESCRIPTION"
+      "SMTP_HOST",
+      "SMTP_PORT",
+      "SMTP_USERNAME",
+      "SMTP_PASSWORD",
+      "SMTP_FROM"
     ]
   },
   "build": {

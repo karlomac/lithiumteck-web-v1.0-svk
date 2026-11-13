@@ -1,33 +1,35 @@
-version: '3.8'
-
 services:
-  # SvelteKit Frontend
   web:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: lithiumteck-web
     restart: unless-stopped
-    ports:
-      - "3000:3000"
+    expose:
+      - "3000"
     environment:
-      - NODE_ENV=production
-      - PORT=3000
-      - POCKETBASE_URL=${POCKETBASE_URL}
-      - PUBLIC_SITE_URL=${PUBLIC_SITE_URL}
-      - PUBLIC_SITE_NAME=${PUBLIC_SITE_NAME:-Lithiumteck}
-      - PUBLIC_SITE_DESCRIPTION=${PUBLIC_SITE_DESCRIPTION}
-      - POCKETBASE_GOOGLE_CLIENT_ID=${POCKETBASE_GOOGLE_CLIENT_ID}
-      - POCKETBASE_GOOGLE_CLIENT_SECRET=${POCKETBASE_GOOGLE_CLIENT_SECRET}
-      - POCKETBASE_GITHUB_CLIENT_ID=${POCKETBASE_GITHUB_CLIENT_ID}
-      - POCKETBASE_GITHUB_CLIENT_SECRET=${POCKETBASE_GITHUB_CLIENT_SECRET}
+      NODE_ENV: production
+      PORT: "3000"
+      PROTOCOL_HEADER: x-forwarded-proto
+      HOST_HEADER: x-forwarded-host
+      ADDRESS_HEADER: x-forwarded-for
+      XFF_DEPTH: ${XFF_DEPTH:-1}
+      ORIGIN: ${ORIGIN:-}
+      POCKETBASE_URL: ${POCKETBASE_URL:?Set POCKETBASE_URL in .env/Dokploy env (external PocketBase)}
+      PUBLIC_SITE_URL: ${PUBLIC_SITE_URL:-}
+      PUBLIC_SITE_NAME: ${PUBLIC_SITE_NAME:-Lithiumteck}
+      PUBLIC_SITE_DESCRIPTION: ${PUBLIC_SITE_DESCRIPTION:-}
+      POCKETBASE_GOOGLE_CLIENT_ID: ${POCKETBASE_GOOGLE_CLIENT_ID:-}
+      POCKETBASE_GOOGLE_CLIENT_SECRET: ${POCKETBASE_GOOGLE_CLIENT_SECRET:-}
+      POCKETBASE_GITHUB_CLIENT_ID: ${POCKETBASE_GITHUB_CLIENT_ID:-}
+      POCKETBASE_GITHUB_CLIENT_SECRET: ${POCKETBASE_GITHUB_CLIENT_SECRET:-}
+      SMTP_HOST: ${SMTP_HOST:-}
+      SMTP_PORT: ${SMTP_PORT:-587}
+      SMTP_USERNAME: ${SMTP_USERNAME:-}
+      SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+      SMTP_FROM: ${SMTP_FROM:-}
     healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000"]
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://127.0.0.1:3000/health"]
       interval: 30s
       timeout: 10s
       retries: 3
       start_period: 40s
-
-networks:
-  default:
-    name: lithiumteck-network
