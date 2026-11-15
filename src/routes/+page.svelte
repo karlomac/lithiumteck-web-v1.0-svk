@@ -243,7 +243,7 @@
 				I am currently open for commissions and full-time server management opportunities. Let's build something legendary together.
 			</p>
 			<div class="flex flex-col sm:flex-row gap-4 justify-center">
-				<a class="px-10 py-5 bg-primary text-background-dark font-black rounded-xl hover:brightness-110 transition-all flex items-center justify-center gap-2 text-lg" href="mailto:hello@example.com">
+				<a class="px-10 py-5 bg-primary text-background-dark font-black rounded-xl hover:brightness-110 transition-all flex items-center justify-center gap-2 text-lg" href="mailto:contact@lithiumteck.com">
 					<span class="material-symbols-outlined">mail</span> START A PROJECT
 				</a>
 				<button class="px-10 py-5 bg-[#5865F2] text-white font-black rounded-xl hover:brightness-110 transition-all flex items-center justify-center gap-2 text-lg" onclick={() => goto('#')}>

@@ -181,10 +181,7 @@
 				<p class="text-slate-500 text-sm">© 2024 Lithiumteck. Not an official Minecraft product.</p>
 			</div>
 			<div class="flex gap-8">
-				<a class="text-slate-400 hover:text-primary transition-colors" href="#">Twitter</a>
-				<a class="text-slate-400 hover:text-primary transition-colors" href="#">ArtStation</a>
-				<a class="text-slate-400 hover:text-primary transition-colors" href="#">Behance</a>
-				<a class="text-slate-400 hover:text-primary transition-colors" href="#">Terms of Service</a>
+				<a class="text-slate-400 hover:text-primary transition-colors" href="mailto:contact@lithiumteck.com">Contact</a>
 			</div>
 		</div>
 	</footer>

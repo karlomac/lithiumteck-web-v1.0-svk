@@ -279,10 +279,7 @@
 				<span class="font-bold">Lithiumteck © 2024</span>
 			</div>
 			<div class="flex gap-8">
-				<a class="text-sm text-white/40 hover:text-white transition-colors" href="#">Discord</a>
-				<a class="text-sm text-white/40 hover:text-white transition-colors" href="#">GitHub</a>
-				<a class="text-sm text-white/40 hover:text-white transition-colors" href="#">SpigotMC</a>
-				<a class="text-sm text-white/40 hover:text-white transition-colors" href="#">Terms</a>
+				<a class="text-sm text-white/40 hover:text-white transition-colors" href="mailto:contact@lithiumteck.com">Contact</a>
 			</div>
 		</div>
 	</footer>
